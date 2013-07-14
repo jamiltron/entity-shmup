@@ -5,8 +5,15 @@ filter: Nearest,Nearest
 repeat: none
 spaceship
   rotate: false
-  xy: 1, 1
+  xy: 1, 11
   size: 32, 32
   orig: 32, 32
+  offset: 0, 0
+  index: -1
+playerBullet
+  rotate: false
+  xy: 1, 1
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1

@@ -12,8 +12,6 @@ import com.doomcrow.shmup.components.Velocity;
 public class MovementSystem extends EntityProcessingSystem {
   @Mapper ComponentMapper<Position> positionMapper;
   @Mapper ComponentMapper<Velocity> velocityMapper;
-  Position position;
-  Velocity velocity;
 
   @SuppressWarnings("unchecked")
   public MovementSystem() {
@@ -22,8 +20,8 @@ public class MovementSystem extends EntityProcessingSystem {
   
   @Override
   protected void process(Entity entity) {
-    position = positionMapper.get(entity);
-    velocity = velocityMapper.get(entity);
+    Position position = positionMapper.get(entity);
+    Velocity velocity = velocityMapper.get(entity);
     
     position.pos.x += velocity.vel.x * world.delta;
     position.pos.y += velocity.vel.y * world.delta;

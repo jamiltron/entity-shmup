@@ -16,4 +16,9 @@ public abstract class Constants {
 	public static final float BULLET_VEL = 8.0f;
 	public static final float BULLET_WIDTH = 0.25f;
 	public static final float BULLET_HEIGHT = 0.25f;
+	
+	public class Groups {
+	  public static final String PLAYER_SHIP = "player ship";
+	  public static final String PLAYER_BULLETS = "player bullets";
+	}
 }

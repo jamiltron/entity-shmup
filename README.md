@@ -14,11 +14,13 @@ GAME CONTROLS
 -------------
 
 WASD to move.
+Space to shoot.
 
 
 TODO
 ----
 
-Bullets.
+Bullets expiration.
 Enemies.
+Collision.
 Levels?
