@@ -1,5 +1,6 @@
 package com.doomcrow.shmup.components;
 
+import com.artemis.Component;
 import com.badlogic.gdx.utils.Pool;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
@@ -107,7 +108,52 @@ public abstract class ComponentFactory {
     rect.height = height;
     return rect;
   }
+
+  public static void freeComponent(Component component) {
+    if (component instanceof Velocity) {
+      freeVelocity((Velocity) component);
+    } else if (component instanceof Image) {
+      freeImage((Image) component);
+    } else if (component instanceof Dimensions) {
+      freeDimensions((Dimensions) component);
+    } else if (component instanceof Bounds) {
+      freeBounds((Bounds) component);
+    } else if (component instanceof Position) {
+      freePosition((Position) component);
+    } else {
+      throw new IllegalArgumentException("Illegal component " + component.toString());
+    }
+  }
   
-  // TODO: implement a "free method" to free stuff back into the object pools
+  private static void freeVelocity(Velocity velocity) {
+    freeVector(velocity.vel);
+    velocityPool.free(velocity);
+  }
+  
+  private static void freeImage(Image image) {
+    imagePool.free(image);
+  }
+  
+  private static void freeDimensions(Dimensions dimensions) {
+    dimensionsPool.free(dimensions);
+  }
+  
+  private static void freePosition(Position position) {
+    freeVector(position.pos);
+    positionPool.free(position);
+  }
+  
+  private static void freeBounds(Bounds bounds) {
+    freeRectangle(bounds.rect);
+    boundsPool.free(bounds);
+  }
+  
+  private static void freeVector(Vector2 vector) {
+    vectorPool.free(vector);
+  }
+  
+  private static void freeRectangle(Rectangle rectangle) {
+    rectanglePool.free(rectangle);
+  }
 
 }

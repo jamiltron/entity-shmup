@@ -6,9 +6,11 @@ import static com.doomcrow.shmup.Constants.BULLET_WIDTH;
 import static com.doomcrow.shmup.Constants.BULLET_HEIGHT;
 import static com.doomcrow.shmup.Constants.BULLET_VEL;
 
+import com.artemis.Component;
 import com.artemis.Entity;
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
+import com.artemis.utils.Bag;
 import com.doomcrow.shmup.Constants.Groups;
 import com.doomcrow.shmup.components.ComponentFactory;
 
@@ -43,4 +45,12 @@ public abstract class EntityFactory {
     return entity;
   }
   
+  public static void freeEntity(Entity entity) {
+    Bag<Component> fillBag = new Bag<Component>();
+    fillBag = entity.getComponents(fillBag);
+    for (int i = 0; i < fillBag.size(); i++) {
+      ComponentFactory.freeComponent(fillBag.get(i));
+    }
+  }
+    
 }

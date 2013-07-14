@@ -14,6 +14,7 @@ import com.doomcrow.shmup.Assets;
 import com.doomcrow.shmup.entities.EntityFactory;
 import com.doomcrow.shmup.systems.ImageRenderingSystem;
 import com.doomcrow.shmup.systems.MovementSystem;
+import com.doomcrow.shmup.systems.OffScreenEntityRemovingSystem;
 import com.doomcrow.shmup.systems.PlayerInputSystem;
 import com.doomcrow.shmup.systems.PlayerScreenBoundingSystem;
 
@@ -27,6 +28,7 @@ public class GameScreen implements Screen {
     world.setManager(new GroupManager());
     world.setSystem(new MovementSystem());
     world.setSystem(new PlayerInputSystem());
+    world.setSystem(new OffScreenEntityRemovingSystem());
     world.setSystem(new PlayerScreenBoundingSystem());
     
     imageRenderer = world.setSystem(new ImageRenderingSystem(TARGET_PPUX, TARGET_PPUY), true);
