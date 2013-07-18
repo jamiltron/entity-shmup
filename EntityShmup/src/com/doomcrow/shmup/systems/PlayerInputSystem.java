@@ -12,6 +12,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.doomcrow.shmup.components.Dimensions;
+import com.doomcrow.shmup.components.FireRate;
 import com.doomcrow.shmup.components.Position;
 import com.doomcrow.shmup.components.Velocity;
 import com.doomcrow.shmup.components.Player;
@@ -21,16 +22,13 @@ public class PlayerInputSystem  extends EntityProcessingSystem implements InputP
   @Mapper ComponentMapper<Velocity> velocityMapper;
   @Mapper ComponentMapper<Position> positionMapper;
   @Mapper ComponentMapper<Dimensions> dimensionsMapper;
+  @Mapper ComponentMapper<FireRate> fireRateMapper;
 
   private boolean up, down, left, right, shoot;
-  private float shootCountDown = 0f;
-  
-  // TODO: make fireRate a component
-  private float fireRate = 0.1f;
   
   @SuppressWarnings("unchecked")
   public PlayerInputSystem() {
-    super(Aspect.getAspectForAll(Position.class, Velocity.class, Player.class));
+    super(Aspect.getAspectForAll(Position.class, Velocity.class, Player.class, FireRate.class));
   }
   
   @Override
@@ -43,6 +41,7 @@ public class PlayerInputSystem  extends EntityProcessingSystem implements InputP
     Velocity velocity = velocityMapper.get(entity);
     Position position = positionMapper.get(entity);
     Dimensions dimensions = dimensionsMapper.get(entity);
+    FireRate fireRate = fireRateMapper.get(entity);
     
     if (up) velocity.vel.y = SHIP_VEL;
     if (down) velocity.vel.y = -SHIP_VEL;
@@ -52,14 +51,14 @@ public class PlayerInputSystem  extends EntityProcessingSystem implements InputP
     if (right) velocity.vel.x = SHIP_VEL;
     if ((left && right) || (!left && !right)) velocity.vel.x = 0;
     
-    if (shoot && shootCountDown <= 0f) {
+    if (shoot && fireRate.currentTime <= 0f) {
       EntityFactory.createPlayerBullet(world, position.pos.x + dimensions.width / 2f - BULLET_WIDTH / 2f, 
           position.pos.y + dimensions.height).addToWorld();
-      shootCountDown = fireRate;
+      fireRate.currentTime = fireRate.rate;
     }
     
-    if (shootCountDown > 0f) {
-      shootCountDown -= world.delta;
+    if (fireRate.currentTime > 0f) {
+      fireRate.currentTime -= world.delta;
     }
   }
 

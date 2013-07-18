@@ -56,6 +56,13 @@ public abstract class ComponentFactory {
       return new Dimensions();
     }
   };
+  
+  private static final Pool<FireRate> fireRatePool = new Pool<FireRate>() {
+	@Override
+	protected FireRate newObject() {
+      return new FireRate();
+	}
+  };
 
   public static Position createPosition(float x, float y) {
     Position position = positionPool.obtain();
@@ -108,6 +115,13 @@ public abstract class ComponentFactory {
     rect.height = height;
     return rect;
   }
+  
+  public static FireRate createFireRate(float rate) {
+    FireRate fireRate = fireRatePool.obtain();
+    fireRate.currentTime = 0f;
+    fireRate.rate = rate;
+    return fireRate;
+  }
 
   public static void freeComponent(Component component) {
     if (component instanceof Velocity) {
@@ -120,9 +134,15 @@ public abstract class ComponentFactory {
       freeBounds((Bounds) component);
     } else if (component instanceof Position) {
       freePosition((Position) component);
+    } else if (component instanceof FireRate) {
+      freeFireRate((FireRate) component);
     } else {
       throw new IllegalArgumentException("Illegal component " + component.toString());
     }
+  }
+  
+  private static void freeFireRate(FireRate fireRate) {
+    fireRatePool.free(fireRate);
   }
   
   private static void freeVelocity(Velocity velocity) {

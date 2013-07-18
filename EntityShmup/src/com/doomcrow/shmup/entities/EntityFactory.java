@@ -21,6 +21,7 @@ public abstract class EntityFactory {
     
     entity.addComponent(ComponentFactory.createBounds(x, y, SHIP_WIDTH, SHIP_HEIGHT));
     entity.addComponent(ComponentFactory.createImage("spaceship"));
+    entity.addComponent(ComponentFactory.createFireRate(0.35f));
     entity.addComponent(ComponentFactory.createPosition(x, y));
     entity.addComponent(ComponentFactory.createVelocity(0f, 0f));
     entity.addComponent(ComponentFactory.createDimensions(SHIP_WIDTH, SHIP_HEIGHT));
