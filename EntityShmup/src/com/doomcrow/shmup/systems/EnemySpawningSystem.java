@@ -17,7 +17,7 @@ public class EnemySpawningSystem extends VoidEntitySystem {
     timer = new Timer(3, true) {
       @Override
       public void execute() {
-        EntityFactory.createEnemySpaceship(world, MathUtils.random(0f, CAM_WIDTH - SHIP_WIDTH), CAM_HEIGHT - 1f/32f).addToWorld();
+        EntityFactory.createEnemySpaceship(world, MathUtils.random(0f, CAM_WIDTH - SHIP_WIDTH), CAM_HEIGHT).addToWorld();
       }
     };
   }
