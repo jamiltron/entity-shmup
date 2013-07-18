@@ -3,9 +3,16 @@ game.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-spaceship
+enemyShip
   rotate: false
   xy: 1, 11
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+spaceship
+  rotate: false
+  xy: 35, 11
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

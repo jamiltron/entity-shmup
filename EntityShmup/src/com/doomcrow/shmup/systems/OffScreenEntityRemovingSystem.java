@@ -28,9 +28,9 @@ public class OffScreenEntityRemovingSystem extends EntityProcessingSystem {
     Dimensions dimensions = dimensionsMapper.get(entity);
     
     if (position.pos.y < -dimensions.height ||
-        position.pos.y + dimensions.height > CAM_HEIGHT ||
+        position.pos.y  > CAM_HEIGHT + dimensions.height ||
         position.pos.x < -dimensions.width ||
-        position.pos.x + dimensions.width > CAM_WIDTH) {
+        position.pos.x > CAM_WIDTH + dimensions.width) {
       EntityFactory.freeEntity(entity);
       entity.deleteFromWorld();
     }

@@ -1,5 +1,6 @@
 package com.doomcrow.shmup.entities;
 
+import static com.doomcrow.shmup.Constants.ENEMY_VEL;
 import static com.doomcrow.shmup.Constants.SHIP_WIDTH;
 import static com.doomcrow.shmup.Constants.SHIP_HEIGHT;
 import static com.doomcrow.shmup.Constants.BULLET_WIDTH;
@@ -28,6 +29,21 @@ public abstract class EntityFactory {
     entity.addComponent(ComponentFactory.createPlayer());
     
     world.getManager(GroupManager.class).add(entity, Groups.PLAYER_SHIP);
+    
+    return entity;
+  }
+  
+  public static Entity createEnemySpaceship(World world, float x, float y) {
+    Entity entity = world.createEntity();
+
+    entity.addComponent(ComponentFactory.createBounds(x, y, SHIP_WIDTH, SHIP_HEIGHT));
+    entity.addComponent(ComponentFactory.createImage("enemyShip"));
+    entity.addComponent(ComponentFactory.createFireRate(0.6f));
+    entity.addComponent(ComponentFactory.createPosition(x, y));
+    entity.addComponent(ComponentFactory.createVelocity(0f, -ENEMY_VEL));
+    entity.addComponent(ComponentFactory.createDimensions(SHIP_WIDTH, SHIP_HEIGHT));
+    
+    world.getManager(GroupManager.class).add(entity, Groups.ENEMY_SHIPS);
     
     return entity;
   }

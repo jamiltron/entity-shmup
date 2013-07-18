@@ -8,11 +8,13 @@ public abstract class Assets {
   
   private static TextureRegion spaceship;
   private static TextureRegion playerBullet;
+  private static TextureRegion enemyShip;
   
   public static void loadImages() {
     TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("data/pack/game.pack"));
     spaceship = atlas.createSprite("spaceship");
     playerBullet = atlas.createSprite("playerBullet");
+    enemyShip = atlas.createSprite("enemyShip");
   }
 
   public static TextureRegion getImage(String name) {
@@ -20,6 +22,8 @@ public abstract class Assets {
       return spaceship;
     } else if (name.equals("playerBullet")) {
       return playerBullet;
+    } else if (name.equals("enemyShip")) {
+      return enemyShip;
     } else {
       throw new IllegalArgumentException("Invalid image name");
     }

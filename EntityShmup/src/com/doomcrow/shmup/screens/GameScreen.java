@@ -12,6 +12,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.doomcrow.shmup.Assets;
 import com.doomcrow.shmup.entities.EntityFactory;
+import com.doomcrow.shmup.systems.EnemySpawningSystem;
 import com.doomcrow.shmup.systems.ImageRenderingSystem;
 import com.doomcrow.shmup.systems.MovementSystem;
 import com.doomcrow.shmup.systems.OffScreenEntityRemovingSystem;
@@ -30,6 +31,7 @@ public class GameScreen implements Screen {
     world.setSystem(new PlayerInputSystem());
     world.setSystem(new OffScreenEntityRemovingSystem());
     world.setSystem(new PlayerScreenBoundingSystem());
+    world.setSystem(new EnemySpawningSystem());
     
     imageRenderer = world.setSystem(new ImageRenderingSystem(TARGET_PPUX, TARGET_PPUY), true);
     world.initialize();
