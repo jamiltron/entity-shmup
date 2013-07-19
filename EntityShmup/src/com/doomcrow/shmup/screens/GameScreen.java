@@ -3,7 +3,7 @@ package com.doomcrow.shmup.screens;
 import static com.doomcrow.shmup.Constants.TARGET_PPUX;
 import static com.doomcrow.shmup.Constants.TARGET_PPUY;
 import static com.doomcrow.shmup.Constants.CAM_WIDTH;
-import static com.doomcrow.shmup.Constants.CAM_HEIGHT;
+import static com.doomcrow.shmup.Constants.SHIP_HEIGHT;
 
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
@@ -12,11 +12,12 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.doomcrow.shmup.Assets;
 import com.doomcrow.shmup.entities.EntityFactory;
-import com.doomcrow.shmup.systems.EnemySpawningSystem;
+import com.doomcrow.shmup.systems.BoundsUpdatingSystem;
+import com.doomcrow.shmup.systems.RandomEnemySpawningIntervalSystem;
 import com.doomcrow.shmup.systems.ImageRenderingSystem;
 import com.doomcrow.shmup.systems.MovementSystem;
 import com.doomcrow.shmup.systems.OffScreenEntityRemovingSystem;
-import com.doomcrow.shmup.systems.PlayerInputSystem;
+import com.doomcrow.shmup.systems.PlayerGameInputSystem;
 import com.doomcrow.shmup.systems.PlayerScreenBoundingSystem;
 
 public class GameScreen implements Screen {
@@ -24,18 +25,18 @@ public class GameScreen implements Screen {
   private ImageRenderingSystem imageRenderer;
   
   public GameScreen() {
-    
     world = new World();
     world.setManager(new GroupManager());
+    world.setSystem(new PlayerGameInputSystem());    
     world.setSystem(new MovementSystem());
-    world.setSystem(new PlayerInputSystem());
     world.setSystem(new OffScreenEntityRemovingSystem());
     world.setSystem(new PlayerScreenBoundingSystem());
-    world.setSystem(new EnemySpawningSystem());
+    world.setSystem(new BoundsUpdatingSystem());
+    world.setSystem(new RandomEnemySpawningIntervalSystem());
     
     imageRenderer = world.setSystem(new ImageRenderingSystem(TARGET_PPUX, TARGET_PPUY), true);
     world.initialize();
-    EntityFactory.createSpaceship(world, CAM_WIDTH / 2f, CAM_HEIGHT / 2f).addToWorld();
+    EntityFactory.createSpaceship(world, CAM_WIDTH / 2f, SHIP_HEIGHT).addToWorld();
     Assets.loadImages();
   }
   
