@@ -7,13 +7,14 @@ import static com.doomcrow.shmup.Constants.SHIP_HEIGHT;
 
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.doomcrow.shmup.Assets;
 import com.doomcrow.shmup.entities.EntityFactory;
 import com.doomcrow.shmup.systems.BoundsUpdatingSystem;
+import com.doomcrow.shmup.systems.CollisionSystem;
+import com.doomcrow.shmup.systems.ExplosionRenderingSystem;
 import com.doomcrow.shmup.systems.FPSConsoleLoggingSystem;
 import com.doomcrow.shmup.systems.RandomEnemySpawningIntervalSystem;
 import com.doomcrow.shmup.systems.ImageRenderingSystem;
@@ -23,12 +24,11 @@ import com.doomcrow.shmup.systems.PlayerGameInputSystem;
 import com.doomcrow.shmup.systems.PlayerScreenBoundingSystem;
 
 public class GameScreen implements Screen {
-  private Game game;
   private World world;
   private ImageRenderingSystem imageRenderer;
+  private ExplosionRenderingSystem explosionRenderer;
   
-  public GameScreen(Game game) {
-    this.game = game;
+  public GameScreen() {
     world = new World();
     world.setManager(new GroupManager());
     world.setSystem(new PlayerGameInputSystem());    
@@ -37,9 +37,11 @@ public class GameScreen implements Screen {
     world.setSystem(new PlayerScreenBoundingSystem());
     world.setSystem(new BoundsUpdatingSystem());
     world.setSystem(new RandomEnemySpawningIntervalSystem());
+    world.setSystem(new CollisionSystem());
     world.setSystem(new FPSConsoleLoggingSystem());
     
     imageRenderer = world.setSystem(new ImageRenderingSystem(TARGET_PPUX, TARGET_PPUY), true);
+    explosionRenderer = world.setSystem(new ExplosionRenderingSystem(TARGET_PPUX, TARGET_PPUY), true);
     world.initialize();
     EntityFactory.createSpaceship(world, CAM_WIDTH / 2f, SHIP_HEIGHT).addToWorld();
     Assets.loadImages();
@@ -52,6 +54,7 @@ public class GameScreen implements Screen {
     world.setDelta(delta);
     world.process();
     imageRenderer.process();
+    explosionRenderer.process();
   }
   @Override
   public void resize(int width, int height) {

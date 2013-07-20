@@ -18,7 +18,7 @@ public class PlayerStartScreenInputSystem extends VoidEntitySystem implements In
   @Override
   protected void processSystem() {
     if (pressedStart) {
-      game.setScreen(new GameScreen(game));
+      game.setScreen(new GameScreen());
       
     } 
   }

@@ -78,6 +78,13 @@ public abstract class ComponentFactory {
       return new Text();
     }
   };
+  
+  private static final Pool<Explosion> explosionPool = new Pool<Explosion>() {
+    @Override
+    protected Explosion newObject() {
+      return new Explosion();
+    }
+  };
 
   public static Position createPosition(float x, float y) {
     Position position = positionPool.obtain();
@@ -112,7 +119,6 @@ public abstract class ComponentFactory {
   }
   
   public static Player createPlayer() {
-    // TODO: Pool for new games? 
     return new Player();
   }
   
@@ -183,9 +189,15 @@ public abstract class ComponentFactory {
       // no-op
     } else if (component instanceof Text) {
       // no-op
+    } else if (component instanceof Explosion) {
+      freeExplosion((Explosion) component);
     } else {
       throw new IllegalArgumentException("Illegal component " + component.toString());
     }
+  }
+  
+  private static void freeExplosion(Explosion explosion) {
+    explosionPool.free(explosion);
   }
   
   private static void freeFireRate(FireRate fireRate) {
@@ -221,6 +233,13 @@ public abstract class ComponentFactory {
   
   private static void freeRectangle(Rectangle rectangle) {
     rectanglePool.free(rectangle);
+  }
+
+  public static Component createExplosion(String name) {
+    Explosion explosion = explosionPool.obtain();
+    explosion.currentTime = 0f;
+    explosion.name = name;
+    return explosion;
   }
 
 }

@@ -19,6 +19,7 @@ public abstract class Constants {
 	public static final float BULLET_HEIGHT = 0.25f;
 	
 	public static final float ENEMY_VEL = 2.0f;
+	public static final float ENEMY_EXPLODE_SPEED = 0.06f;
 	
 	public static final float TEXT_FLICKER_RATE = 0.8f;
 	

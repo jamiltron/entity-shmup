@@ -12,11 +12,12 @@ import com.artemis.utils.ImmutableBag;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.doomcrow.shmup.Assets;
 import com.doomcrow.shmup.components.Dimensions;
+import com.doomcrow.shmup.components.Explosion;
 import com.doomcrow.shmup.components.Position;
-import com.doomcrow.shmup.components.Image;
+import com.doomcrow.shmup.entities.EntityFactory;
 
-public class ImageRenderingSystem extends EntitySystem {
-  @Mapper ComponentMapper<Image> imageMapper;
+public class ExplosionRenderingSystem extends EntitySystem {
+  @Mapper ComponentMapper<Explosion> explosionMapper;
   @Mapper ComponentMapper<Position> positionMapper;
   @Mapper ComponentMapper<Dimensions> dimensionsMapper;
 
@@ -25,8 +26,8 @@ public class ImageRenderingSystem extends EntitySystem {
   private float ppuY;
   
   @SuppressWarnings("unchecked")
-  public ImageRenderingSystem(float ppuX, float ppuY) {
-    super(Aspect.getAspectForAll(Position.class, Image.class, Dimensions.class));
+  public ExplosionRenderingSystem(float ppuX, float ppuY) {
+    super(Aspect.getAspectForAll(Position.class, Explosion.class, Dimensions.class));
     this.ppuX = ppuX;
     this.ppuY = ppuY;
     batch = new SpriteBatch();
@@ -38,15 +39,20 @@ public class ImageRenderingSystem extends EntitySystem {
   }
   
   protected void process(Entity entity) {
-    if (positionMapper.has(entity)) {
-      Position position = positionMapper.getSafe(entity);
-      Image image = imageMapper.get(entity);
-      Dimensions dimensions = dimensionsMapper.get(entity);
-      
-      batch.draw(Assets.getImage(image.name), 
-           position.pos.x * ppuX, position.pos.y * ppuY, 
-           dimensions.width * ppuX, dimensions.height * ppuY);
+    Position position = positionMapper.get(entity);
+    Explosion explosion = explosionMapper.get(entity);
+    Dimensions dimensions = dimensionsMapper.get(entity);
+    
+    if (Assets.isAnimationFinished(explosion.name, explosion.currentTime)) {
+      EntityFactory.freeEntity(entity);
+      world.deleteEntity(entity);
+    } else {
+      batch.draw(Assets.getAnimationFrame(explosion.name, explosion.currentTime), 
+          position.pos.x * ppuX, position.pos.y * ppuY, 
+          dimensions.width * ppuX, dimensions.height * ppuY);
+      explosion.currentTime += world.getDelta();
     }
+
   }
 
   @Override

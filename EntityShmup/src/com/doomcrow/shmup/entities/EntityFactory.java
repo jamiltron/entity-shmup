@@ -49,6 +49,16 @@ public abstract class EntityFactory {
     return entity;
   }
   
+  public static Entity createEnemyExplosion(World world, float x, float y) {
+    Entity entity = world.createEntity();
+    
+    entity.addComponent(ComponentFactory.createPosition(x, y));
+    entity.addComponent(ComponentFactory.createDimensions(SHIP_WIDTH, SHIP_HEIGHT));
+    entity.addComponent(ComponentFactory.createExplosion("enemyExplosion"));
+    
+    return entity;
+  }
+  
   public static Entity createPlayerBullet(World world, float x, float y) {
     Entity entity = world.createEntity();
     
