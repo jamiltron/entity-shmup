@@ -9,7 +9,6 @@ import com.artemis.Entity;
 import com.artemis.EntitySystem;
 import com.artemis.annotations.Mapper;
 import com.artemis.utils.ImmutableBag;
-import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.doomcrow.shmup.Assets;
 import com.doomcrow.shmup.components.Dimensions;
@@ -24,7 +23,6 @@ public class ImageRenderingSystem extends EntitySystem {
   private SpriteBatch batch;
   private float ppuX;
   private float ppuY;
-  private FPSLogger logger;
   
   @SuppressWarnings("unchecked")
   public ImageRenderingSystem(float ppuX, float ppuY) {
@@ -32,7 +30,6 @@ public class ImageRenderingSystem extends EntitySystem {
     this.ppuX = ppuX;
     this.ppuY = ppuY;
     batch = new SpriteBatch();
-    logger = new FPSLogger();
   }
   
   public void resize(float width, float height) {
@@ -63,9 +60,7 @@ public class ImageRenderingSystem extends EntitySystem {
     for (int i = 0; i < entities.size(); i++) {
       process(entities.get(i));
     }
-    logger.log();
     batch.end();
-    
   }
 
 }

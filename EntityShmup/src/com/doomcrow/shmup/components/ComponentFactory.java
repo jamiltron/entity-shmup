@@ -2,6 +2,7 @@ package com.doomcrow.shmup.components;
 
 import com.artemis.Component;
 import com.badlogic.gdx.utils.Pool;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -58,10 +59,24 @@ public abstract class ComponentFactory {
   };
   
   private static final Pool<FireRate> fireRatePool = new Pool<FireRate>() {
-	@Override
-	protected FireRate newObject() {
+	  @Override
+	  protected FireRate newObject() {
       return new FireRate();
-	}
+	  }
+  };
+  
+  private static final Pool<Color> colorPool = new Pool<Color>() {
+    @Override
+    protected Color newObject() {
+      return new Color();
+    }
+  };
+  
+  private static final Pool<Text> textPool = new Pool<Text>() {
+    @Override
+    protected Text newObject() {
+      return new Text();
+    }
   };
 
   public static Position createPosition(float x, float y) {
@@ -71,9 +86,22 @@ public abstract class ComponentFactory {
     return position;
   }
   
+  public static Flicker createFlicker(float flickerRate) {
+    Flicker flicker = new Flicker();
+    flicker.flickerRate = flickerRate;
+    flicker.currentTime = 1f;
+    return flicker;
+  }
+  
   public static Bounds createBounds(float x, float y, float width, float height) {
+    return createBounds(x, y, width, height, 0, 0);
+  }
+  
+  public static Bounds createBounds(float x, float y, float width, float height, float xOffset, float yOffset) {
     Bounds bounds = boundsPool.obtain();
     bounds.rect = obtainRectangle(x, y, width, height);
+    bounds.xOffset = xOffset;
+    bounds.yOffset = yOffset;
     return bounds;
   }
   
@@ -84,7 +112,16 @@ public abstract class ComponentFactory {
   }
   
   public static Player createPlayer() {
+    // TODO: Pool for new games? 
     return new Player();
+  }
+  
+  public static Text createText(String str, String name) {
+    Text text =  textPool.obtain();
+    text.fontName = name;
+    text.str = str;
+    text.color = obtainColor(1f, 1f, 1f, 1f);
+    return text;
   }
   
   public static Velocity createVelocity(float x, float y) {
@@ -98,6 +135,12 @@ public abstract class ComponentFactory {
     dimensions.width = width;
     dimensions.height = height;
     return dimensions;
+  }
+  
+  private static Color obtainColor(float r, float g, float b, float a) {
+    Color color = colorPool.obtain();
+    color.set(r, g, b, a);
+    return color;
   }
   
   private static Vector2 obtainVector(float x, float y) {
@@ -136,6 +179,10 @@ public abstract class ComponentFactory {
       freePosition((Position) component);
     } else if (component instanceof FireRate) {
       freeFireRate((FireRate) component);
+    } else if (component instanceof Player) {
+      // no-op
+    } else if (component instanceof Text) {
+      // no-op
     } else {
       throw new IllegalArgumentException("Illegal component " + component.toString());
     }

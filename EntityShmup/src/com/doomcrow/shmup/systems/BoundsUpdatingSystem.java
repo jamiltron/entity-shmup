@@ -23,7 +23,7 @@ public class BoundsUpdatingSystem extends EntityProcessingSystem {
     Position position = positionMapper.get(entity);
     Bounds bounds = boundsMapper.get(entity);
     
-    bounds.rect.x = position.pos.x;
-    bounds.rect.y = position.pos.y;
+    bounds.rect.x = position.pos.x + bounds.xOffset;
+    bounds.rect.y = position.pos.y + bounds.yOffset;
   }
 }

@@ -7,12 +7,14 @@ import static com.doomcrow.shmup.Constants.SHIP_HEIGHT;
 
 import com.artemis.World;
 import com.artemis.managers.GroupManager;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL10;
 import com.doomcrow.shmup.Assets;
 import com.doomcrow.shmup.entities.EntityFactory;
 import com.doomcrow.shmup.systems.BoundsUpdatingSystem;
+import com.doomcrow.shmup.systems.FPSConsoleLoggingSystem;
 import com.doomcrow.shmup.systems.RandomEnemySpawningIntervalSystem;
 import com.doomcrow.shmup.systems.ImageRenderingSystem;
 import com.doomcrow.shmup.systems.MovementSystem;
@@ -21,10 +23,12 @@ import com.doomcrow.shmup.systems.PlayerGameInputSystem;
 import com.doomcrow.shmup.systems.PlayerScreenBoundingSystem;
 
 public class GameScreen implements Screen {
+  private Game game;
   private World world;
   private ImageRenderingSystem imageRenderer;
   
-  public GameScreen() {
+  public GameScreen(Game game) {
+    this.game = game;
     world = new World();
     world.setManager(new GroupManager());
     world.setSystem(new PlayerGameInputSystem());    
@@ -33,6 +37,7 @@ public class GameScreen implements Screen {
     world.setSystem(new PlayerScreenBoundingSystem());
     world.setSystem(new BoundsUpdatingSystem());
     world.setSystem(new RandomEnemySpawningIntervalSystem());
+    world.setSystem(new FPSConsoleLoggingSystem());
     
     imageRenderer = world.setSystem(new ImageRenderingSystem(TARGET_PPUX, TARGET_PPUY), true);
     world.initialize();
@@ -46,7 +51,6 @@ public class GameScreen implements Screen {
     Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
     world.setDelta(delta);
     world.process();
-    
     imageRenderer.process();
   }
   @Override

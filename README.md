@@ -13,14 +13,14 @@ You will need the latest jars for artemis and libgdx 0.9.7+
 GAME CONTROLS
 -------------
 
-WASD to move.
+WASD or Arrows to move.
 Space to shoot.
 
 
 TODO
 ----
 
-Bullets expiration.
-Enemies.
 Collision.
+HUD.
+Parallax background.
 Levels?

@@ -6,6 +6,8 @@ import static com.doomcrow.shmup.Constants.SHIP_HEIGHT;
 import static com.doomcrow.shmup.Constants.BULLET_WIDTH;
 import static com.doomcrow.shmup.Constants.BULLET_HEIGHT;
 import static com.doomcrow.shmup.Constants.BULLET_VEL;
+import static com.doomcrow.shmup.Constants.TEXT_FLICKER_RATE;
+import static com.doomcrow.shmup.Constants.SHIP_FIRE_RATE;
 
 import com.artemis.Component;
 import com.artemis.Entity;
@@ -22,7 +24,7 @@ public abstract class EntityFactory {
     
     entity.addComponent(ComponentFactory.createBounds(x, y, SHIP_WIDTH, SHIP_HEIGHT));
     entity.addComponent(ComponentFactory.createImage("spaceship"));
-    entity.addComponent(ComponentFactory.createFireRate(0.35f));
+    entity.addComponent(ComponentFactory.createFireRate(SHIP_FIRE_RATE));
     entity.addComponent(ComponentFactory.createPosition(x, y));
     entity.addComponent(ComponentFactory.createVelocity(0f, 0f));
     entity.addComponent(ComponentFactory.createDimensions(SHIP_WIDTH, SHIP_HEIGHT));
@@ -57,6 +59,23 @@ public abstract class EntityFactory {
     entity.addComponent(ComponentFactory.createDimensions(BULLET_WIDTH, BULLET_HEIGHT));
     
     world.getManager(GroupManager.class).add(entity, Groups.PLAYER_BULLETS);
+    
+    return entity;
+  }
+  
+  public static Entity createText(World world, float x, float y, String text, String fontName) {
+    Entity entity = world.createEntity();
+    
+    entity.addComponent(ComponentFactory.createPosition(x, y));
+    entity.addComponent(ComponentFactory.createText(text, fontName));
+
+    return entity;
+  }
+  
+  public static Entity createFlickeringText(World world, float x, float y, String text, String fontName) {
+    Entity entity = createText(world, x, y, text, fontName);
+    
+    entity.addComponent(ComponentFactory.createFlicker(TEXT_FLICKER_RATE));
     
     return entity;
   }
