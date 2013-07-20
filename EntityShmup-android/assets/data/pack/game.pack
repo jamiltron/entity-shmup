@@ -3,16 +3,65 @@ game.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-enemyShip
+enemyExplosion6
+  rotate: false
+  xy: 1, 79
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+enemyExplosion1
+  rotate: false
+  xy: 1, 45
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+enemyExplosion3
+  rotate: false
+  xy: 35, 79
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+enemyExplosion2
   rotate: false
   xy: 1, 11
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: -1
+enemyExplosion7
+  rotate: false
+  xy: 35, 45
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
 spaceship
   rotate: false
+  xy: 69, 79
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+enemyExplosion5
+  rotate: false
   xy: 35, 11
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+enemyShip
+  rotate: false
+  xy: 69, 45
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+enemyExplosion4
+  rotate: false
+  xy: 69, 11
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
