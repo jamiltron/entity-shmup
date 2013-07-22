@@ -28,7 +28,7 @@ public class PlayerGameInputSystem  extends EntityProcessingSystem implements In
   
   @SuppressWarnings("unchecked")
   public PlayerGameInputSystem() {
-    super(Aspect.getAspectForAll(Position.class, Velocity.class, Player.class, FireRate.class));
+    super(Aspect.getAspectForAll(Dimensions.class, Position.class, Velocity.class, Player.class, FireRate.class));
   }
   
   @Override
